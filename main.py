@@ -1,4 +1,6 @@
-from stats import get_sorted_word_count, get_word_count, get_character_count, sort_on
+from stats import get_sorted_word_count, get_word_count
+from stats import get_character_count, sort_on
+import sys
 
 def get_book_text(filePath):
 
@@ -7,9 +9,9 @@ def get_book_text(filePath):
 
     return book_string
 
-def print_analyze(word_count, directory, sorted_chars):
+def print_analyze(word_count, filePath, sorted_chars):
     print("============ BOOKBOT ============")
-    print(f"Analyzing book found at {directory}...")
+    print(f"Analyzing book found at {filePath}...")
     print("----------- Word Count ----------")
     print(f"Found {word_count} total words")
     print("--------- Character Count -------")
@@ -21,14 +23,17 @@ def print_analyze(word_count, directory, sorted_chars):
 
 
 def main():
-    filePath = "./books/frankenstein.txt"
-    directory = "/books/frankenstein.txt"
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    filePath = sys.argv[1]
     book_string = get_book_text(filePath)
     word_count = get_word_count(book_string)
     char_count = get_character_count(book_string)
     sorted_chars = get_sorted_word_count(char_count)
     sorted_chars.sort(reverse=True, key=sort_on)
-    print_analyze(word_count, directory, sorted_chars)
+    print_analyze(word_count, filePath, sorted_chars)
     
 
 
